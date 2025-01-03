@@ -1,4 +1,4 @@
-module github.com/flothjl/thehub
+module github.com/flothjl/bitcoinhub
 
 go 1.23.4
 
