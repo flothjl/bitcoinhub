@@ -1,0 +1,13 @@
+{{ template "layout.html" .}}
+
+{{ define "title"}} thehub {{end}}
+
+{{define "content"}}
+<div class="min-h-[100%] p-4 flex flex-wrap gap-3 content-center justify-center">
+  {{range .}}
+    <div class="flex-1 basis-1/4">
+      {{template "terminal.html" .}}
+    </div>
+  {{end}}
+</div>
+{{end}}

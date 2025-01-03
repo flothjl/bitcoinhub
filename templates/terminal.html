@@ -1,0 +1,11 @@
+<div class="terminal">
+  <h1 class="text-3xl font-bold mb-6 text-center">{{.ProviderName}}</h1>
+  <div class="space-y-1">
+    {{range .Data}}
+    <div><strong>{{.Label}}:</strong> {{.Value}}</div> 
+    {{end}}
+    <div>
+      <span class="blinking">_</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+body {
+  font-family: "VT323", serif;
+}
+
+html,
+body,
+main{
+  height: 100%;
+}
+
+.terminal {
+  padding: 20px;
+  border: 1px solid #00ff00; /* Green border for terminal window */
+  background: rgba(0, 0, 0, 0.9); /* Slight transparency */
+  box-shadow: 0 0 6px #00ff00; /* Glow effect */
+}
+
+.blinking {
+  display: inline-block;
+  font-weight: bold;
+  animation: blink 1s steps(2, start) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
