@@ -12,7 +12,6 @@ import (
 	"time"
 
 	"github.com/joho/godotenv"
-	"github.com/jritsema/gotoolbox"
 	"github.com/jritsema/gotoolbox/web"
 )
 
@@ -56,7 +55,7 @@ func main() {
 	logger := log.New(os.Stdout, "http: ", log.LstdFlags)
 	middleware := tracing(nextRequestID)(logging(logger)(router))
 
-	port := gotoolbox.GetEnvWithDefault("PORT", "8080")
+	port := GetEnvWithDefault("PORT", "8080")
 	logger.Println("listening on http://localhost:" + port)
 	if err := http.ListenAndServe(":"+port, middleware); err != nil {
 		logger.Println("http.ListenAndServe():", err)
