@@ -574,16 +574,24 @@ video {
   flex: 1 1 0%;
 }
 
+.flex-none {
+  flex: none;
+}
+
 .basis-1\/4 {
   flex-basis: 25%;
 }
 
-.flex-wrap {
-  flex-wrap: wrap;
+.basis-full {
+  flex-basis: 100%;
 }
 
-.content-center {
-  align-content: center;
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
 }
 
 .justify-center {
@@ -598,6 +606,10 @@ video {
   --tw-space-y-reverse: 0;
   margin-top: calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(0.25rem * var(--tw-space-y-reverse));
+}
+
+.whitespace-pre {
+  white-space: pre;
 }
 
 .bg-black {

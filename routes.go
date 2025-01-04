@@ -157,6 +157,17 @@ func buildRaspiblitzData() ProviderData {
 	items := []ProviderDataItem{}
 	items = append(items, ProviderDataItem{"CPU", fmt.Sprintf("%.2f %%", raspiblitzData.CPUOverallPercent)})
 	items = append(items, ProviderDataItem{"RAM", fmt.Sprintf("%.2f %%", raspiblitzData.VramUsagePercent)})
+	for i, v := range raspiblitzData.Disks {
+		pd := ProviderDataItem{
+			Label: fmt.Sprintf("Disk %d", i),
+			Value: fmt.Sprintf(
+				"%dGB/%dGB (%.2f %%)",
+				v.PartitionUsedBytes/1000000000,
+				v.PartitionTotalBytes/1000000000, float64(v.PartitionUsedBytes)/float64(v.PartitionTotalBytes)*100.00),
+		}
+
+		items = append(items, pd)
+	}
 	data.Data = items
 
 	return data
