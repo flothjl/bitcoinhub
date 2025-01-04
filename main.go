@@ -11,6 +11,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/flothjl/bitcoinhub/plugins"
 	"github.com/joho/godotenv"
 	"github.com/jritsema/gotoolbox/web"
 )
@@ -25,6 +26,19 @@ var (
 	// parsed templates
 	html *template.Template
 )
+
+func index(r *http.Request) *web.Response {
+	pm := &plugins.PluginManager{}
+	pm.Register(plugins.BitAxePlugin{})
+	pm.Register(plugins.RaspiblitzPlugin{})
+
+	data, err := pm.RenderAll()
+	if err != nil {
+		log.Printf("Error building plugins: %v", err)
+	}
+
+	return web.HTML(http.StatusOK, html, "index.html", data, nil)
+}
 
 func main() {
 	// exit process immediately upon sigterm
