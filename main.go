@@ -25,19 +25,36 @@ var (
 
 	// parsed templates
 	html *template.Template
+
+	pm *plugins.PluginManager
 )
 
-func index(r *http.Request) *web.Response {
-	pm := &plugins.PluginManager{}
+func init() {
+	pm = &plugins.PluginManager{}
 	pm.Register(plugins.BitAxePlugin{})
 	pm.Register(plugins.RaspiblitzPlugin{})
+}
 
+func index(r *http.Request) *web.Response {
 	data, err := pm.RenderAll()
 	if err != nil {
 		log.Printf("Error building plugins: %v", err)
 	}
 
 	return web.HTML(http.StatusOK, html, "index.html", data, nil)
+}
+
+func refresh(r *http.Request) *web.Response {
+	name := r.PathValue("name")
+	p, err := pm.FindPluginByName(name)
+	if err != nil {
+		log.Printf("%v", err)
+		return web.HTML(http.StatusInternalServerError, html, "terminal.html", nil, nil)
+	}
+
+	data, _ := p.Render()
+
+	return web.HTML(http.StatusOK, html, "terminal.html", data, nil)
 }
 
 func main() {
@@ -59,6 +76,9 @@ func main() {
 	router := http.NewServeMux()
 	router.Handle("GET /css/output.css", http.FileServer(http.FS(css)))
 	router.Handle("GET /css/main.css", http.FileServer(http.FS(css)))
+	// refresh
+	router.Handle("GET /refresh/{name}", web.Action(refresh))
+	// home
 	router.Handle("GET /", web.Action(index))
 	router.Handle("GET /index.html", web.Action(index))
 

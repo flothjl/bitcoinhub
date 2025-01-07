@@ -10,6 +10,8 @@ import (
 	"github.com/jritsema/gotoolbox"
 )
 
+const raspiblitzName = "Raspiblitz"
+
 func HttpGetJSON(url string, result interface{}, headers map[string]string) error {
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
@@ -86,8 +88,7 @@ func raspiBlitzAuth() (string, error) {
 
 func buildRaspiblitzData() (ProviderData, error) {
 	url := fmt.Sprintf("%s/%s", os.Getenv("RASPIBLITZ_URL"), "system/hardware-info")
-	const ProviderName = "Raspiblitz"
-	data := ProviderData{ProviderName, []ProviderDataItem{}}
+	data := ProviderData{raspiblitzName, []ProviderDataItem{}}
 
 	jwt, authErr := raspiBlitzAuth()
 	if authErr != nil {
@@ -125,4 +126,8 @@ type RaspiblitzPlugin struct{}
 
 func (p RaspiblitzPlugin) Render() (ProviderData, error) {
 	return buildRaspiblitzData()
+}
+
+func (p RaspiblitzPlugin) GetName() string {
+	return raspiblitzName
 }

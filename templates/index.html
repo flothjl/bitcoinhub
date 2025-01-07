@@ -14,12 +14,73 @@
 |____/ |_| \__| \___| \___/ |_||_| |_| |_|  |_| \__,_||_.__/ 
     </pre>
   </div>
+  <div class="text-lg">
+    h←/l→/k↑/j↓ to select a terminal. 
+    &crarr; to refresh selected terminal.
+  </div>
 </div>
-<div class="min-h-[100%] p-4 flex flex-wrap gap-3 justify-center">
+<div id="terminal-container" class="min-h-[100%] p-4 grid grid-cols-2 gap-3 justify-center">
   {{range .}}
-    <div class="flex-1 basis-1/4">
+    <div id="{{.ProviderName}}-terminal">
       {{template "terminal.html" .}}
     </div>
   {{end}}
 </div>
+<script>
+function initialize(){
+    const grid = document.getElementById("terminal-container");
+    const terminals = Array.from(document.querySelectorAll(".terminal"))
+
+    let currentIndex = 0;
+
+    try{
+      terminals[currentIndex].focus();
+    } catch(error) {
+        console.error("unable to find terminal. skipping initial focus")
+    }
+
+    document.addEventListener('keydown', (event) => {
+      const cols = 2;
+
+      switch(event.key) {
+        case "ArrowUp":
+        case "k": 
+          if (currentIndex - cols >= 0) currentIndex -= cols;
+          break;
+        case "ArrowDown":
+        case "j":
+          if (currentIndex + cols <= terminals.length) currentIndex += cols;
+          break;
+        case "ArrowLeft":
+        case "h":
+          if (currentIndex % cols !== 0) currentIndex -= 1;
+          break;
+        case "ArrowRight":
+        case "l": 
+          if ((currentIndex + 1) % cols !== 0) currentIndex += 1;
+          break;
+        case "Enter":
+          const terminal = terminals[currentIndex]
+          if(terminal){
+            const link = terminal.querySelector(".refresh-button")
+            if(link){
+              link.click();
+            }
+          }
+          break;
+        default:
+          return;
+      }
+
+      terminals[currentIndex].focus();
+      event.preventDefault();
+    })
+}
+
+document.addEventListener("htmx:afterSwap", (event) => {
+  initialize();
+});
+
+initialize();
+</script>
 {{end}}

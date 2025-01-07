@@ -7,6 +7,8 @@ import (
 	"github.com/jritsema/gotoolbox"
 )
 
+const bitaxeName = "BitAxe"
+
 type BitAxeStatus struct {
 	Power                  float64 `json:"power,omitempty"`
 	Voltage                float64 `json:"voltage,omitempty"`
@@ -52,9 +54,8 @@ type BitAxeStatus struct {
 
 func buildBitAxeProviderData() (ProviderData, error) {
 	url := os.Getenv("BITAXE_URL")
-	const ProviderName = "BitAxe"
 	var data ProviderData
-	data.ProviderName = ProviderName
+	data.ProviderName = bitaxeName
 	// get bitaxe data
 	bitAxeData := &BitAxeStatus{}
 	err := gotoolbox.HttpGetJSON(url, bitAxeData)
@@ -71,7 +72,7 @@ func buildBitAxeProviderData() (ProviderData, error) {
 	items = append(items, ProviderDataItem{"Best Difficulty", bitAxeData.BestDiff})
 	items = append(items, ProviderDataItem{"Best Session Difficulty", bitAxeData.BestSessionDiff})
 
-	return ProviderData{ProviderName, items}, nil
+	return ProviderData{bitaxeName, items}, nil
 }
 
 type BitAxePlugin struct{}
@@ -79,4 +80,8 @@ type BitAxePlugin struct{}
 func (p BitAxePlugin) Render() (ProviderData, error) {
 	d, err := buildBitAxeProviderData()
 	return d, err
+}
+
+func (p BitAxePlugin) GetName() string {
+	return bitaxeName
 }

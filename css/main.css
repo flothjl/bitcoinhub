@@ -6,15 +6,21 @@ html,
 body,
 main{
   height: 100%;
-  animation: textflicker 0.005s infinite alternate;
+  animation: textflicker 0.1s infinite alternate;
 }
 
 .terminal {
   padding: 20px;
   border: 2px solid #00ff00; /* Green border for terminal window */
   border-radius: 4px;
-  animation: borderflicker 0.005s infinite alternate;
+  animation: borderflicker 0.1s infinite alternate;
 
+}
+
+.terminal:focus,
+.terminal:active {
+  border-color: #d4ffd4;
+  outline: none;
 }
 
 .blinking {
@@ -31,18 +37,18 @@ main{
 
 @keyframes textflicker {
   from {
-    text-shadow: 1px 0 0 #ea36af, -2px 0 0 #75fa69;
+    text-shadow: -0.6px 0 0 #ea36af;
   }
   to {
-    text-shadow: 2px 0.5px 2px #ea36af, -1px -0.5px 2px #75fa69;
+    text-shadow: -1.2px 0.5px 2px #ea36af;
   }
 }
 
 @keyframes borderflicker {
   from {
-    box-shadow: inset 0 0 4px #ea36af, 0 0 8px #75fa69;
+    box-shadow: inset 0 0 4px #ea36af, 0 0 6px #75fa69;
   }
   to {
-    box-shadow: inset 0 0 8px #ea36af, 0 0 4px #75fa69;
+    box-shadow: inset 0 0 6px #ea36af, 0 0 4px #75fa69;
   }
 }

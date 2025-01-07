@@ -1,5 +1,9 @@
 package plugins
 
+import (
+	"errors"
+)
+
 type ProviderDataItem struct {
 	Label string
 	Value string
@@ -12,6 +16,7 @@ type ProviderData struct {
 
 type Plugin interface {
 	Render() (ProviderData, error)
+	GetName() string
 }
 
 type PluginManager struct {
@@ -34,4 +39,13 @@ func (pm *PluginManager) RenderAll() ([]ProviderData, error) {
 	}
 
 	return pData, nil
+}
+
+func (pm *PluginManager) FindPluginByName(name string) (Plugin, error) {
+	for _, p := range pm.plugins {
+		if p.GetName() == name {
+			return p, nil
+		}
+	}
+	return nil, errors.New("Unable to find plugin")
 }

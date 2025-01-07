@@ -1,11 +1,23 @@
-<div class="terminal">
+<div tabindex="0" class="terminal">
   <h1 class="text-4xl font-bold mb-6 text-center">{{.ProviderName}}</h1>
   <div class="space-y-1 text-2xl">
     {{range .Data}}
     <div><strong>{{.Label}}:</strong> {{.Value}}</div> 
     {{end}}
     <div>
-      <span>> </span><span class="blinking">_</span>
+      <span>> <a class="refresh-button hover:cursor-pointer hover:text-white"
+                hx-get="/refresh/{{.ProviderName}}" 
+                hx-trigger="click" 
+                hx-target="#{{.ProviderName}}-terminal" 
+                hx-swap="innerHTML"
+                hx-indicator="#refreshing-{{.ProviderName}}">
+                Click to refresh...
+              </a>
+      </span>
+      <span class="blinking">_</span>
+    </div>
+    <div>
+      <span id="refreshing-{{.ProviderName}}" class="htmx-indicator">Loading...</span>
     </div>
   </div>
 </div>
