@@ -15,8 +15,8 @@
     </pre>
   </div>
   <div class="text-lg">
-    h←/l→/k↑/j↓ to select a terminal. 
-    &crarr; to refresh selected terminal.
+    h←/j↓/k↑/l→ select a terminal. 
+    &crarr; to refresh data.
   </div>
 </div>
 <div id="terminal-container" class="min-h-[100%] p-4 grid grid-cols-2 gap-3 justify-center">
@@ -27,11 +27,10 @@
   {{end}}
 </div>
 <script>
+let currentIndex = 0
 function initialize(){
     const grid = document.getElementById("terminal-container");
     const terminals = Array.from(document.querySelectorAll(".terminal"))
-
-    let currentIndex = 0;
 
     try{
       terminals[currentIndex].focus();
