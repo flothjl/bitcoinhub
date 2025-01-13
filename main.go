@@ -30,9 +30,14 @@ var (
 )
 
 func init() {
+	err := godotenv.Load()
+	if err != nil {
+		panic("Unable to load .env file")
+	}
 	pm = &plugins.PluginManager{}
 	pm.Register(plugins.BitAxePlugin{})
 	pm.Register(plugins.RaspiblitzPlugin{})
+	pm.Register(plugins.MempoolPlugin{})
 }
 
 func index(r *http.Request) *web.Response {
@@ -62,7 +67,6 @@ func main() {
 	handleSigTerms()
 	var err error
 
-	err = godotenv.Load()
 	if err != nil {
 		log.Fatalf("Error loading .env file: %v", err)
 	}

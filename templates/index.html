@@ -19,7 +19,7 @@
     &crarr; to refresh data.
   </div>
 </div>
-<div id="terminal-container" class="min-h-[100%] p-4 grid grid-cols-2 gap-3 justify-center">
+<div id="terminal-container" class="p-4 grid grid-cols-2 gap-3 justify-center">
   {{range .}}
     <div id="{{.ProviderName}}-terminal">
       {{template "terminal.html" .}}
